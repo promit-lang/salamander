@@ -8,6 +8,10 @@
 // this utility to dump whole instruction sets.
 
 static int dump_instruction(ObjFn* fn, int i, int* last_line) {
+#define READ_BYTE() (bytecode[i++])
+#define READ_SHORT()                                                    \
+	(i += 2, (uint16_t) ((bytecode[i - 2] << 0x8) | bytecode[i - 1]))
+
 	int start        = i,
 	    current_line = salamander_ObjFn_byte_line(fn, i);
 
@@ -17,18 +21,23 @@ static int dump_instruction(ObjFn* fn, int i, int* last_line) {
 		*last_line = current_line;
 	} else printf("     ");
 
-	uint8_t* bytecodes = fn -> code.data;
+	uint8_t* bytecode = fn -> code.data;
 
-	Code code = (Code) bytecodes[i];
+	Code code = (Code) bytecode[i];
 
 	// Print the instruction offset.
 
 	printf("  %04d  ", i++);
 
 	switch(code) {
-		case CODE_CONSTANT:   printf("CONSTANT"); break;
-		case CODE_RETURN: printf("RETURN"); break;
-		case CODE_END:    printf("END"); break;
+		case CODE_CONSTANT: {
+			printf("%-16s %5hu ", "CONSTANT", READ_SHORT());
+
+			break;
+		}
+
+		case CODE_RETURN:   printf("RETURN"); break;
+		case CODE_END:      printf("END"); break;
 	}
 
 	printf("\n");
@@ -40,6 +49,9 @@ static int dump_instruction(ObjFn* fn, int i, int* last_line) {
 		return -1;
 	
 	return i - start;
+
+#undef READ_BYTE
+#undef READ_SHORT
 }
 
 int salamander_dump_instruction(ObjFn* fn, int i) {

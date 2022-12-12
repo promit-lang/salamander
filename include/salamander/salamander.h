@@ -31,7 +31,7 @@
 
 // Numeric representation of SVM version number. Use this if you want to do 
 // altogether version check and use specific features in the host application.
-
+// 
 // Version number does not include revision.
 
 #define SALAMANDER_VERSION_NUMBER (SALAMANDER_VERSION_MAJOR * 1000000 \

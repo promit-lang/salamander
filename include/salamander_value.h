@@ -81,6 +81,8 @@ typedef struct struct_ObjFn {
 } ObjFn;
 
 int  salamander_ObjFn_byte_line(ObjFn*, int);
-void salamander_ObjFn_write_byte(SalamanderVM*, ObjFn*, uint8_t byte, int line);
+void salamander_ObjFn_write_byte(SalamanderVM*, ObjFn*, uint8_t, int);
+void salamander_ObjFn_write_short(SalamanderVM*, ObjFn*, uint16_t, int);
+int  salamander_ObjFn_write_constant(SalamanderVM*, ObjFn*, Value);
 
 #endif    // __SALAMANDER_VALUE_H__
