@@ -1,5 +1,5 @@
 /**
- * salamander_utils.h
+ * salamander_util.h
  * 
  * See the 'LICENSE' file for this file's license.
  *
@@ -10,8 +10,8 @@
  *   1. SD Asif Hossein <s.dah.ingularity@gmail.com> 7th Dec. 2022
  */
 
-#ifndef __SALAMANDER_UTILS_H__
-#define __SALAMANDER_UTILS_H__
+#ifndef __SALAMANDER_UTIL_H__
+#define __SALAMANDER_UTIL_H__
 
 #include <salamander/salamander.h>
 #include <salamander_memory.h>
@@ -102,4 +102,4 @@ DECLARE_BUFFER(Int, int);
 
 int salamander_next_power_of_2(int);
 
-#endif    // __SALAMANDER_UTILS_H__
+#endif    // __SALAMANDER_UTIL_H__

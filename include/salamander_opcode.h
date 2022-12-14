@@ -1,5 +1,5 @@
 /**
- * salamander_instr.h
+ * salamander_opcode.h
  * 
  * See the 'LICENSE' file for this file's license.
  * 
@@ -16,8 +16,8 @@
  *   1. SD Asif Hossein <s.dah.ingularity@gmail.com> 7th Dec. 2022
  */
 
-INSTR(CONSTANT, 1)
+OPCODE(CONSTANT, 1)
 
-INSTR(RETURN, 0)
+OPCODE(RETURN, 0)
 
-INSTR(END, 0)
+OPCODE(END, 0)

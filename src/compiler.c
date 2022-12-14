@@ -26,7 +26,7 @@ void salamander_Compiler_emit_CONSTANT(SalamanderVM* vm, ObjFn* fn,
 // function/fiber execution.
 
 void salamander_Compiler_emit_RETURN(SalamanderVM* vm, ObjFn* fn, int line) {
-	salamander_ObjFn_write_byte(vm, fn, CODE_RETURN, line);
+	salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_RETURN, line);
 }
 
 // void salamander_Compiler_emit_END(SalamanderVM*, ObjFn*, int);
@@ -37,5 +37,5 @@ void salamander_Compiler_emit_RETURN(SalamanderVM* vm, ObjFn* fn, int line) {
 // this instruction to indicate wrong code generation.
 
 void salamander_Compiler_emit_END(SalamanderVM* vm, ObjFn* fn, int line) {
-	salamander_ObjFn_write_byte(vm, fn, CODE_END, line);
+	salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_END, line);
 }

@@ -47,8 +47,13 @@ typedef struct struct_SalamanderVM SalamanderVM;
 
 // TODO: add conf.
 
-// struct struct_SalamanderConfiguration {
+typedef struct struct_SalamanderConfiguration {
 
-// } SalamanderConfiguration;
+} SalamanderConfiguration;
+
+typedef enum enum_SalamanderResult {
+	SALAMANDER_RESULT_RUNTIME_ERROR,
+	SALAMANDER_RESULT_SUCCESS
+} SalamanderResult;
 
 #endif    // __SALAMANDER_H__

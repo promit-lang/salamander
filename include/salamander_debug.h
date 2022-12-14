@@ -14,5 +14,7 @@
 #include <salamander_vm.h>
 #include <salamander_value.h>
 
-int  salamander_dump_instruction(ObjFn*, int);
-void salamander_dump_fn(ObjFn*);
+void salamander_debug_dump_value(Value);
+int  salamander_debug_dump_instruction(ObjFn*, int);
+void salamander_debug_dump_fn(ObjFn*);
+void salamander_debug_dump_stack(SalamanderVM* vm);

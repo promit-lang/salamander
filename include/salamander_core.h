@@ -51,6 +51,10 @@
 #define SALAMANDER_NAN_TAGGING 1
 #endif    // SALAMANDER_NAN_TAGGING
 
+// Set this to 1 to dump each instruction with stack trace while runtime.
+
+#define SALAMANDER_DEBUG_TRACE_EXECUTION 1
+
 // SVM uses a GCC extension called computed goto's for faster loop dispatching.
 // Enable this feature if you are compiling SVM with GCC compiler.
 // See more about this at:
@@ -96,12 +100,14 @@
 // VM will throw an assertion error.
 
 #define ASSERT(condition, message)                                           \
-	if(is_false(condition)) {                                                \
-		(void) fprintf(stderr,                                               \
-			"[%s:%d] Debug assertion failed in %s() : %s",                   \
-			__FILE__, __LINE__, __func__, message);                          \
-		abort();                                                             \
-	}
+	do {                                                                     \
+		if(is_false(condition)) {                                            \
+			(void) fprintf(stderr,                                           \
+				"[%s:%d] Debug assertion failed in %s() : %s",               \
+				__FILE__, __LINE__, __func__, message);                      \
+			abort();                                                         \
+		}                                                                    \
+	} while(false)
 
 // Indicates the program execution shouldn't reach the portion of code. If it
 // does, dump error in DEBUG mode.
@@ -111,14 +117,16 @@
 // be reached. This gets rid of the 'expected a return' warnings.
 
 #define UNREACHABLE()                                                        \
-	fprintf(stderr,                                                          \
-		"[%s:%d] This portion of code should not be reached in %s()!",       \
-		__FILE__, __LINE__, __func__);                                       \
-	abort();
+	do {                                                                     \
+		fprintf(stderr,                                                      \
+			"[%s:%d] This portion of code should not be reached in %s()!",   \
+			__FILE__, __LINE__, __func__);                                   \
+		abort();                                                             \
+	} while(false)
 
 #else 
 
-#define ASSERT(condition, message) 
+#define ASSERT(condition, message) do {} while(false)
 
 // '__assume' in MSVC compiler indicates unreachable code to optimizer where
 // '__builtin_unreachable' is used for GCC compilers of version 4.5 or higher.
@@ -133,7 +141,7 @@
 
 #else 
 
-#define UNREACHABLE() 
+#define UNREACHABLE() do {} while(false)
 
 #endif    // _MSC_VER and __GNUC__
 

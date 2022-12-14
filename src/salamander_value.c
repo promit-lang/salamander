@@ -68,7 +68,7 @@ void salamander_ObjFn_write_short(SalamanderVM* vm, ObjFn* fn,
 	salamander_ObjFn_write_byte(vm, fn, (uint8_t) (bytes & 0xFF), line);
 }
 
-// int salamander_ObjFn_write_constant(SalamanderVM, ObjFn*, Value);
+// int salamander_ObjFn_write_constant(SalamanderVM*, ObjFn*, Value);
 //
 // Writes the provided constant to the constant pool.
 
