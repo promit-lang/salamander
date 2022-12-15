@@ -52,7 +52,7 @@ typedef uint64_t Value;
 #else 
 
 typedef enum enum_ValueType {
-	VAL_NUM
+	VAL_NUMBER
 } ValueType;
 
 typedef struct struct_Value {
@@ -64,7 +64,7 @@ typedef struct struct_Value {
 	} data;
 } Value;
 
-#define IS_NUM(value) ((value).type == VAL_NUM)
+#define IS_NUM(value) ((value).type == VAL_NUMBER)
 
 #endif    // SALAMANDER_NAN_TAGGING
 

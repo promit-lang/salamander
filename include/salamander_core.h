@@ -34,6 +34,10 @@
 
 #include <stddef.h>
 
+// To have access to macros and  NAN, INFINITY, isnan() etc.
+
+#include <math.h>
+
 /**
  * Flags defined after this will control the behaviour of the interpreter
  * implementation.
@@ -85,6 +89,13 @@
 #define is_false(x) !x
 
 #endif    // __GNUC__ and __clang__
+
+// MSVC Compiler does not support 'inline' keyword in 
+// C environment.
+
+#if defined(_MSC_VER) && !defined(__cplusplus)
+#define inline _inline
+#endif
 
 // The macros defined below is used throughout the implementation of SVM.
 // If any of it triggers, that means we have bugs in our nice VM. Catching 

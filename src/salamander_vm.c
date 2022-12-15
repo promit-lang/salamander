@@ -1,3 +1,4 @@
+#include <salamander/libutil.h>
 #include <salamander_vm.h>
 
 #if SALAMANDER_DEBUG_TRACE_EXECUTION
@@ -23,6 +24,8 @@ static SalamanderResult salamander_execute(SalamanderVM* vm) {
 #define PUSH(value)  (*vm -> stack_top++ = (value))
 #define POP()        (*(--vm -> stack_top))
 #define DROP()       (--vm -> stack_top)
+#define PEEK()       (vm -> stack_top - 1)
+#define PEEK2()      (vm -> stack_top - 2)
 #define READ_BYTE()  (*ip++)
 #define READ_SHORT() (ip += 2, (uint16_t) ((ip[-2] << 0x8) | ip[-1]))
 
@@ -31,9 +34,9 @@ static SalamanderResult salamander_execute(SalamanderVM* vm) {
 #if SALAMANDER_DEBUG_TRACE_EXECUTION
 
 #define DEBUG_TRACE_INSTRUCTIONS()  do {              \
+		salamander_debug_dump_stack(vm);              \
 		salamander_debug_dump_instruction(vm -> fn,   \
 			(int) (ip - vm -> fn -> code.data));      \
-		salamander_debug_dump_stack(vm);              \
 	} while(false)
 
 #else
@@ -64,6 +67,7 @@ static SalamanderResult salamander_execute(SalamanderVM* vm) {
 
 #define INTERPRETER_LOOP                   \
 	vm_loop:                               \
+		DEBUG_TRACE_INSTRUCTIONS();        \
 		switch(instruction = READ_BYTE()) 
 
 #define VMCASE(code) case CODE_##code
@@ -79,6 +83,27 @@ static SalamanderResult salamander_execute(SalamanderVM* vm) {
 		VMCASE(CONSTANT): 
 			PUSH(vm -> fn -> pool.data[READ_SHORT()]);
 			DISPATCH();
+		
+		VMCASE(ADD): {
+			Value result = salamander_Value_add(vm, PEEK2(), PEEK());
+
+			DROP();
+			DROP();
+
+			PUSH(result);
+
+			DISPATCH();
+		}
+
+		VMCASE(NEGATE): {
+			Value result = salamander_Value_negate(vm, PEEK());
+
+			DROP();
+
+			PUSH(result);
+
+			DISPATCH();
+		}
 
 		VMCASE(RETURN): 
 			return SALAMANDER_RESULT_SUCCESS;

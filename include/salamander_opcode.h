@@ -9,15 +9,37 @@
  * 
  * The first paramter to the 'INSTR' macro is the instruction code name,
  * and second one is stack effect. Stack effect means, how the instruction
- * will affect the stack, where positive number signifies values will be 
- * pushed to stack and vice versa.
+ * will affect the stack, where positive number signifies the stack will
+ * grow and vice versa.
  *
  * @authors:
  *   1. SD Asif Hossein <s.dah.ingularity@gmail.com> 7th Dec. 2022
  */
 
+// Load a constnat from constant pool into the stack.
+
 OPCODE(CONSTANT, 1)
 
+// Pops 2 values from stack and makes an addition operation. For string type 
+// this opcode will do concatenation. Calls the overloaded operator '+' if
+// defined in class or wrapper class.
+
+OPCODE(ADD, -1)
+
+// Negates the top most value of the stack. If the value is not a number, it
+// will be converted to a number. Calls the overloaded operator '-' if defined
+// in of a class or wrapper class.
+
+OPCODE(NEGATE, 0)
+
+// Exit from the current running function and push the return value into the
+// stack.
+
 OPCODE(RETURN, 0)
+
+// Indicates the end of the bytecode. It is not supposed to be ran by the VM.
+// It should always come after the the 'RETURN' instruction, which terminates
+// the function execution. If the VM reaches this instruction, the compiler 
+// generated wrong code.
 
 OPCODE(END, 0)

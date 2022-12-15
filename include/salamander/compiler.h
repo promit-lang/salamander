@@ -18,8 +18,10 @@
 
 #include <salamander_value.h>
 
-void salamander_Compiler_emit_CONSTANT(SalamanderVM*, ObjFn*, Value, int);
-void salamander_Compiler_emit_RETURN(SalamanderVM*, ObjFn*, int);
-void salamander_Compiler_emit_END(SalamanderVM*, ObjFn*, int);
+SALAMANDER_API void salamander_Compiler_emit_CONSTANT(SalamanderVM*, ObjFn*, Value, int);
+SALAMANDER_API void salamander_Compiler_emit_ADD(SalamanderVM*, ObjFn*, int);
+SALAMANDER_API void salamander_Compiler_emit_NEGATE(SalamanderVM*, ObjFn*, int);
+SALAMANDER_API void salamander_Compiler_emit_RETURN(SalamanderVM*, ObjFn*, int);
+SALAMANDER_API void salamander_Compiler_emit_END(SalamanderVM*, ObjFn*, int);
 
 #endif    // __SALAMANDER_COMPILER_H__

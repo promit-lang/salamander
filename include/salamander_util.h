@@ -35,9 +35,9 @@
 
 #define DECLARE_BUFFER(name, type)                                            \
 	typedef struct struct_##name##Buffer {                                    \
-		type* data;                                                           \
 		int count;                                                            \
 		int capacity;                                                         \
+		type* data;                                                           \
 	} name##Buffer;                                                           \
 	                                                                          \
 	void salamander_##name##Buffer_init(name##Buffer*);                       \

@@ -14,6 +14,10 @@
 #ifndef __SALAMANDER_H__
 #define __SALAMANDER_H__
 
+// Standard C libraries.
+
+#include <stdbool.h>
+
 // For API access specifier.
 
 #include <salamander/api.h>
