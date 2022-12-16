@@ -31,7 +31,7 @@ typedef struct struct_Obj {
 
 // The main value representation.
 
-#ifdef SALAMANDER_NAN_TAGGING
+#if SALAMANDER_NAN_TAGGING
 
 // We only need 64-bits to represent a value.
 
@@ -113,7 +113,7 @@ int  salamander_ObjFn_write_constant(SalamanderVM*, ObjFn*, Value);
 
 // Converts a double number to 'Value' representation.
 
-static inline uint64_t salamander_Value_num_to_value(double num) {
+static inline Value salamander_Value_num_to_value(double num) {
 #if SALAMANDER_NAN_TAGGING
 	return (Value) salamander_Math_double_to_bits(num);
 #else

@@ -24,24 +24,45 @@
 // overloading. Plus, it also those utility functions also handle operations
 // like adding number to a string and stuffs like that.
 
-// Binary operators.
-// 
-// Note: Maintain order.
+/** Binary operators. Maintain value order. */
 
-SALAMANDER_API Value salamander_Value_add(SalamanderVM*, Value*, Value*);
+// Does addition of the second value to the first value. Calls overloaded
+// operator '+' on the first value arguemnt if defined in the class or 
+// wrapper class.
 
-// Unary operators.
+SALAMANDER_API Value 
+	salamander_Value_add(SalamanderVM*, Value* const, Value* const);
 
-SALAMANDER_API Value salamander_Value_negate(SalamanderVM*, Value*);
+// Multiplies the first value with the second value. Calls overloaded
+// operator '*' on the first value argument if defined in the class or 
+// wrapper class.
 
-// Converts any type of value representation to number.
+SALAMANDER_API Value 
+	salamander_Value_multiply(SalamanderVM*, Value* const, Value* const);
+
+// Divides the first value with the second value. Calls overloaded
+// operator '*' on the first value argument if defined in the class or 
+// wrapper class.
+
+SALAMANDER_API Value 
+	salamander_Value_divide(SalamanderVM*, Value* const, Value* const);
+
+/** Unary operators. */
+
+// Negates the provided value. Calls the '-' overloaded operator if defined
+// in class or wrapper class.
+
+SALAMANDER_API Value salamander_Value_negate(SalamanderVM*, Value* const);
+
+// Attempts to convert a 'Value' of any type of to number.
 // TODO: Add more specification.
 
-SALAMANDER_API Value salamander_Value_convert_to_num(SalamanderVM*, Value*);
+SALAMANDER_API Value 
+	salamander_Value_convert_to_num(SalamanderVM*, Value* const);
 
 // In SVM, a valid number is a number which is neither INFINITY nor NAN.
 // This function checks whether the provided number is valid.
 
-SALAMANDER_API bool salamander_Value_is_valid_num(double);
+SALAMANDER_API bool salamander_Value_is_valid_num(Value* const);
 
 #endif    // __SALAMANDER_LIBUTIL_H__

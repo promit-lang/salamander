@@ -57,7 +57,22 @@ static int dump_instruction(ObjFn* fn, int i, int* last_line) {
 			break;
 		}
 
-		case CODE_ADD:    printf("ADD"); break;
+		case CODE_BINARY: {
+			uint8_t type = READ_BYTE();
+
+			printf("%-16s %5u -> '", "BINARY", type);
+
+			switch(type) {
+				case BINARY_ADD: printf("+"); break;
+				case BINARY_MUL: printf("*"); break;
+				case BINARY_DIV: printf("/"); break;
+			}
+
+			printf("'");
+
+			break;
+		}
+		
 		case CODE_NEGATE: printf("NEGATE"); break;
 		case CODE_RETURN: printf("RETURN"); break;
 		case CODE_END:    printf("END"); break;

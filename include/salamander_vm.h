@@ -29,6 +29,15 @@ struct struct_SalamanderVM {
 	Value* stack_top;
 };
 
+// Types of binary operation the VM can perform. This values will be passed 
+// the instruction 'BINARY' as an operand.
+
+typedef enum enum_BinaryOpType {
+	BINARY_ADD,
+	BINARY_MUL,
+	BINARY_DIV
+} BinaryOpType;
+
 // Weird, huh?
 
 void             salamander_SalamanderVM_init(SalamanderVM*);

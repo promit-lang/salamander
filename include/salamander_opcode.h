@@ -20,20 +20,21 @@
 
 OPCODE(CONSTANT, 1)
 
-// Pops 2 values from stack and makes an addition operation. For string type 
-// this opcode will do concatenation. Calls the overloaded operator '+' if
-// defined in class or wrapper class.
+// Pops 2 values from stack and makes a defined binary operation. Takes 
+// 1 byte of data as an operand telling it which operation to do.
+// 
+// Note: This opcode is also responsible for bitwise operations.
 
-OPCODE(ADD, -1)
+OPCODE(BINARY, -1)
 
 // Negates the top most value of the stack. If the value is not a number, it
 // will be converted to a number. Calls the overloaded operator '-' if defined
-// in of a class or wrapper class.
+// in class or wrapper class.
 
 OPCODE(NEGATE, 0)
 
-// Exit from the current running function and push the return value into the
-// stack.
+// Exits from the current running function and pushes the return value into 
+// the stack.
 
 OPCODE(RETURN, 0)
 

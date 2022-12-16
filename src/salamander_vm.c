@@ -83,9 +83,33 @@ static SalamanderResult salamander_execute(SalamanderVM* vm) {
 		VMCASE(CONSTANT): 
 			PUSH(vm -> fn -> pool.data[READ_SHORT()]);
 			DISPATCH();
-		
-		VMCASE(ADD): {
-			Value result = salamander_Value_add(vm, PEEK2(), PEEK());
+
+		VMCASE(BINARY): {
+			BinaryOpType type = (BinaryOpType) READ_BYTE();
+
+			Value* left = PEEK2(),
+			     *right = PEEK();
+				
+			Value result;
+
+			switch(type) {
+				case BINARY_ADD: 
+					result = salamander_Value_add(vm, 
+						(Value* const) left, (Value* const) right);
+					break;
+
+				case BINARY_MUL: 
+					result = salamander_Value_multiply(vm,
+						(Value* const) left, (Value* const) right);
+					break;
+				
+				case BINARY_DIV: 
+					result = salamander_Value_divide(vm, 
+						(Value* const) left, (Value* const) right);
+				break;
+			
+				default: UNREACHABLE();
+			}
 
 			DROP();
 			DROP();

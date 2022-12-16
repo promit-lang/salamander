@@ -12,7 +12,6 @@
  */
 
 #include <salamander_vm.h>
-#include <salamander_value.h>
 
 void salamander_debug_dump_value(Value);
 int  salamander_debug_dump_instruction(ObjFn*, int);
