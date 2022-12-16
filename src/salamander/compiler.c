@@ -9,17 +9,17 @@
 // stack from constant pool.
 
 void salamander_Compiler_emit_CONSTANT(SalamanderVM* vm, ObjFn* fn, 
-	Value constant, int line) 
+    Value constant, int line) 
 {
-	int constant_index = salamander_ObjFn_write_constant(vm, fn, constant);
+    int constant_index = salamander_ObjFn_write_constant(vm, fn, constant);
 
-	// Emit the instruction.
+    // Emit the instruction.
 
-	salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_CONSTANT, line);
-	
-	// Emit the constant index as short.
+    salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_CONSTANT, line);
 
-	salamander_ObjFn_write_short(vm, fn, (uint16_t) constant_index, line);
+    // Emit the constant index as short.
+
+    salamander_ObjFn_write_short(vm, fn, (uint16_t) constant_index, line);
 }
 
 // void 
@@ -30,10 +30,10 @@ void salamander_Compiler_emit_CONSTANT(SalamanderVM* vm, ObjFn* fn,
 // on top of the stack.
 
 void salamander_Compiler_emit_BINARY(SalamanderVM* vm, ObjFn* fn, 
-	BinaryOpType type, int line) 
+    BinaryOpType type, int line) 
 {
-	salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_BINARY, line);
-	salamander_ObjFn_write_byte(vm, fn, (uint8_t) type, line);
+    salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_BINARY, line);
+    salamander_ObjFn_write_byte(vm, fn, (uint8_t) type, line);
 }
 
 // void salamander_Compiler_emit_ADD(SalamanderVM*, ObjFn*, int);
@@ -43,7 +43,7 @@ void salamander_Compiler_emit_BINARY(SalamanderVM* vm, ObjFn* fn,
 // addition will be performed accordingly.
 
 void salamander_Compiler_emit_ADD(SalamanderVM* vm, ObjFn* fn, int line) {
-	salamander_Compiler_emit_BINARY(vm, fn, BINARY_ADD, line);
+    salamander_Compiler_emit_BINARY(vm, fn, BINARY_ADD, line);
 }
 
 // void salamander_Compiler_emit_MULTIPLY(SalamanderVM*, ObjFn*, int);
@@ -56,7 +56,7 @@ void salamander_Compiler_emit_ADD(SalamanderVM* vm, ObjFn* fn, int line) {
 // This function is a helper function to 'salamander_Compiler_emit_BINARY()'.
 
 void salamander_Compiler_emit_MULTIPLY(SalamanderVM* vm, ObjFn* fn, int line) {
-	salamander_Compiler_emit_BINARY(vm, fn, BINARY_MUL, line);
+    salamander_Compiler_emit_BINARY(vm, fn, BINARY_MUL, line);
 }
 
 // void salamander_Compiler_emit_DIVIDE(SalamanderVM*, ObjFn*, int);
@@ -68,7 +68,7 @@ void salamander_Compiler_emit_MULTIPLY(SalamanderVM* vm, ObjFn* fn, int line) {
 // This function is a helper function to 'salamander_Compiler_emit_BINARY()'.
 
 void salamander_Compiler_emit_DIVIDE(SalamanderVM* vm, ObjFn* fn, int line) {
-	salamander_Compiler_emit_BINARY(vm, fn, BINARY_DIV, line);
+    salamander_Compiler_emit_BINARY(vm, fn, BINARY_DIV, line);
 }
 
 // void salamander_Compiler_emit_H_SUBSTRACT(SalamanderVM*, ObjFn* fn, int);
@@ -79,8 +79,8 @@ void salamander_Compiler_emit_DIVIDE(SalamanderVM* vm, ObjFn* fn, int line) {
 // will emit the instructions 'NEGATE' and 'ADD' respectively.
 
 void salamander_Compiler_emit_H_SUBSTRACT(SalamanderVM* vm, ObjFn* fn, int line) {
-	salamander_Compiler_emit_NEGATE(vm, fn, line);
-	salamander_Compiler_emit_ADD(vm, fn, line);
+    salamander_Compiler_emit_NEGATE(vm, fn, line);
+    salamander_Compiler_emit_ADD(vm, fn, line);
 }
 
 // void salamander_Compiler_emit_NEGATE(SalamanderVM*, ObjFn*, int);
@@ -89,7 +89,7 @@ void salamander_Compiler_emit_H_SUBSTRACT(SalamanderVM* vm, ObjFn* fn, int line)
 // of the stack, if the value number or convertible to number.
 
 void salamander_Compiler_emit_NEGATE(SalamanderVM* vm, ObjFn* fn, int line) {
-	salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_NEGATE, line);
+    salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_NEGATE, line);
 }
 
 // void salamander_Compiler_emit_RETURN(SalamanderVM*, ObjFn*, int);
@@ -98,7 +98,7 @@ void salamander_Compiler_emit_NEGATE(SalamanderVM* vm, ObjFn* fn, int line) {
 // function/fiber execution.
 
 void salamander_Compiler_emit_RETURN(SalamanderVM* vm, ObjFn* fn, int line) {
-	salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_RETURN, line);
+    salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_RETURN, line);
 }
 
 // void salamander_Compiler_emit_END(SalamanderVM*, ObjFn*, int);
@@ -109,5 +109,5 @@ void salamander_Compiler_emit_RETURN(SalamanderVM* vm, ObjFn* fn, int line) {
 // this instruction to indicate wrong code generation.
 
 void salamander_Compiler_emit_END(SalamanderVM* vm, ObjFn* fn, int line) {
-	salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_END, line);
+    salamander_ObjFn_write_byte(vm, fn, (uint8_t) CODE_END, line);
 }

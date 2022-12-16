@@ -111,14 +111,14 @@
 // VM will throw an assertion error.
 
 #define ASSERT(condition, message)                                           \
-	do {                                                                     \
-		if(is_false(condition)) {                                            \
-			(void) fprintf(stderr,                                           \
-				"[%s:%d] Debug assertion failed in %s() : %s",               \
-				__FILE__, __LINE__, __func__, message);                      \
-			abort();                                                         \
-		}                                                                    \
-	} while(false)
+    do {                                                                     \
+        if(is_false(condition)) {                                            \
+            (void) fprintf(stderr,                                           \
+                "[%s:%d] Debug assertion failed in %s() : %s",               \
+                __FILE__, __LINE__, __func__, message);                      \
+            abort();                                                         \
+        }                                                                    \
+    } while(false)
 
 // Indicates the program execution shouldn't reach the portion of code. If it
 // does, dump error in DEBUG mode.
@@ -128,12 +128,12 @@
 // be reached. This gets rid of the 'expected a return' warnings.
 
 #define UNREACHABLE()                                                        \
-	do {                                                                     \
-		fprintf(stderr,                                                      \
-			"[%s:%d] This portion of code should not be reached in %s()!",   \
-			__FILE__, __LINE__, __func__);                                   \
-		abort();                                                             \
-	} while(false)
+    do {                                                                     \
+        fprintf(stderr,                                                      \
+            "[%s:%d] This portion of code should not be reached in %s()!",   \
+            __FILE__, __LINE__, __func__);                                   \
+        abort();                                                             \
+    } while(false)
 
 #else 
 

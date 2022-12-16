@@ -24,18 +24,18 @@ typedef enum enum_Code {
 #undef OPCODE
 
 struct struct_SalamanderVM {
-	ObjFn* fn;
-	Value stack[256];
-	Value* stack_top;
+    ObjFn* fn;
+    Value stack[256];
+    Value* stack_top;
 };
 
 // Types of binary operation the VM can perform. This values will be passed 
 // the instruction 'BINARY' as an operand.
 
 typedef enum enum_BinaryOpType {
-	BINARY_ADD,
-	BINARY_MUL,
-	BINARY_DIV
+    BINARY_ADD,
+    BINARY_MUL,
+    BINARY_DIV
 } BinaryOpType;
 
 // Weird, huh?

@@ -8,13 +8,13 @@
 
 void salamander_debug_dump_value(Value value) {
 #ifdef SALAMANDER_NAN_TAGGING
-	if(is_true(IS_NUM(value))) 
-		printf("%.14g", AS_NUM(value));
+    if(is_true(IS_NUM(value))) 
+        printf("%.14g", AS_NUM(value));
 #else
-	switch(value.type) {
-		case VAL_NUM: printf("'%.14d'", AS_NUM(value)); break;
-		default: UNREACHABLE();
-	}
+    switch(value.type) {
+        case VAL_NUM: printf("'%.14d'", AS_NUM(value)); break;
+        default: UNREACHABLE();
+    }
 #endif
 }
 
@@ -24,94 +24,94 @@ void salamander_debug_dump_value(Value value) {
 static int dump_instruction(ObjFn* fn, int i, int* last_line) {
 #define READ_BYTE() (bytecode[i++])
 #define READ_SHORT()                                                    \
-	(i += 2, (uint16_t) ((bytecode[i - 2] << 0x8) | bytecode[i - 1]))
+    (i += 2, (uint16_t) ((bytecode[i - 2] << 0x8) | bytecode[i - 1]))
 
-	int start        = i,
-	    current_line = salamander_ObjFn_byte_line(fn, i);
+    int start        = i,
+        current_line = salamander_ObjFn_byte_line(fn, i);
 
-	if(is_true(last_line == NULL || *last_line != current_line)) {
-		printf("%4d:", current_line);
+    if(is_true(last_line == NULL || *last_line != current_line)) {
+        printf("%4d:", current_line);
 
-		if(is_true(last_line != NULL))
-			*last_line = current_line;
-	} else printf("     ");
+        if(is_true(last_line != NULL))
+            *last_line = current_line;
+    } else printf("     ");
 
-	uint8_t* bytecode = fn -> code.data;
+    uint8_t* bytecode = fn -> code.data;
 
-	Code code = (Code) bytecode[i];
+    Code code = (Code) bytecode[i];
 
-	// Print the instruction offset.
+    // Print the instruction offset.
 
-	printf("  %04d  ", i++);
+    printf("  %04d  ", i++);
 
-	switch(code) {
-		case CODE_CONSTANT: {
-			uint16_t index = READ_SHORT();
+    switch(code) {
+        case CODE_CONSTANT: {
+            uint16_t index = READ_SHORT();
 
-			printf("%-16s %5hu '", "CONSTANT", index);
+            printf("%-16s %5hu '", "CONSTANT", index);
 
-			salamander_debug_dump_value(fn -> pool.data[index]);
+            salamander_debug_dump_value(fn -> pool.data[index]);
 
-			printf("'");
+            printf("'");
 
-			break;
-		}
+            break;
+        }
 
-		case CODE_BINARY: {
-			uint8_t type = READ_BYTE();
+        case CODE_BINARY: {
+            uint8_t type = READ_BYTE();
 
-			printf("%-16s %5u -> '", "BINARY", type);
+            printf("%-16s %5u -> '", "BINARY", type);
 
-			switch(type) {
-				case BINARY_ADD: printf("+"); break;
-				case BINARY_MUL: printf("*"); break;
-				case BINARY_DIV: printf("/"); break;
-			}
+            switch(type) {
+                case BINARY_ADD: printf("+"); break;
+                case BINARY_MUL: printf("*"); break;
+                case BINARY_DIV: printf("/"); break;
+            }
 
-			printf("'");
+            printf("'");
 
-			break;
-		}
-		
-		case CODE_NEGATE: printf("NEGATE"); break;
-		case CODE_RETURN: printf("RETURN"); break;
-		case CODE_END:    printf("END"); break;
-	}
+            break;
+        }
+        
+        case CODE_NEGATE: printf("NEGATE"); break;
+        case CODE_RETURN: printf("RETURN"); break;
+        case CODE_END:    printf("END"); break;
+    }
 
-	printf("\n");
+    printf("\n");
 
-	// In the very end of each instruction set, there will be CODE_END which
-	// indicates the end of execution.
+    // In the very end of each instruction set, there will be CODE_END which
+    // indicates the end of execution.
 
-	if(is_true(code == CODE_END)) 
-		return -1;
-	
-	return i - start;
+    if(is_true(code == CODE_END)) 
+        return -1;
+
+    return i - start;
 
 #undef READ_BYTE
 #undef READ_SHORT
 }
 
 int salamander_debug_dump_instruction(ObjFn* fn, int i) {
-	return dump_instruction(fn, i, NULL);
+    return dump_instruction(fn, i, NULL);
 }
 
 // void salamander_debug_dump_fn(ObjFn*);
 
 void salamander_debug_dump_fn(ObjFn* fn) {
-	int i, offset;
+    int i, offset;
 
-	i = offset = 0;
+    i = offset = 0;
 
-	int last_line = -1;
+    int last_line = -1;
 
-	while(is_true(offset != -1)) {
-		offset = dump_instruction(fn, i, &last_line);
+    while(is_true(offset != -1)) {
+        offset = dump_instruction(fn, i, &last_line);
 
-		i += offset;
-	}
+        i += offset;
+    }
 
-	printf("\n");
+    printf("\n");
 }
 
 // void salamander_debug_dump_stack(SalamanderVM*);
@@ -119,14 +119,14 @@ void salamander_debug_dump_fn(ObjFn* fn) {
 // Dump the whole fiber stack.
 
 void salamander_debug_dump_stack(SalamanderVM* vm) {
-	printf("Stack: [ ");
+    printf("Stack: [ ");
 
-	for(Value* slot = vm -> stack; slot < vm -> stack_top; slot++) {
-		salamander_debug_dump_value(*slot);
+    for(Value* slot = vm -> stack; slot < vm -> stack_top; slot++) {
+        salamander_debug_dump_value(*slot);
 
-		if(is_true(slot + 1 < vm -> stack_top))
-			printf(", ");
-	}
+        if(is_true(slot + 1 < vm -> stack_top))
+            printf(", ");
+    }
 
-	printf(" ]\n");
+    printf(" ]\n");
 }

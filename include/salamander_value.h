@@ -19,14 +19,14 @@
 // naming order.
 
 typedef enum enum_ObjType {
-	OBJ_FIBER
+    OBJ_FIBER
 } ObjType;
 
 // The core object representation, which will be inherited by every other
 // object types through conventional C structure inheritance.
 
 typedef struct struct_Obj {
-	ObjType type;
+    ObjType type;
 } Obj;
 
 // The main value representation.
@@ -52,16 +52,16 @@ typedef uint64_t Value;
 #else 
 
 typedef enum enum_ValueType {
-	VAL_NUMBER
+    VAL_NUMBER
 } ValueType;
 
 typedef struct struct_Value {
-	ValueType type;
+    ValueType type;
 
-	union {
-		double num;
-		Obj* obj;
-	} data;
+    union {
+        double num;
+        Obj* obj;
+    } data;
 } Value;
 
 #define IS_NUM(value) ((value).type == VAL_NUMBER)
@@ -84,26 +84,26 @@ DECLARE_BUFFER(Value, Value);
 // corresponding line numbers, etc.
 
 typedef struct struct_FnDebug {
-	// Stores the line numbers using run-length encoding method.
+    // Stores the line numbers using run-length encoding method.
 
-	IntBuffer lines;
+    IntBuffer lines;
 } FnDebug;
 
 // A function object.
 // TODO: Add more features.
 
 typedef struct struct_ObjFn {
-	Obj obj;
+    Obj obj;
 
-	// To store the sequence of bytecodes.
+    // To store the sequence of bytecodes.
 
-	ByteBuffer code;
+    ByteBuffer code;
 
-	// Constant pool to store constants.
+    // Constant pool to store constants.
 
-	ValueBuffer pool;
+    ValueBuffer pool;
 
-	FnDebug* debug;
+    FnDebug* debug;
 } ObjFn;
 
 int  salamander_ObjFn_byte_line(ObjFn*, int);
@@ -115,14 +115,14 @@ int  salamander_ObjFn_write_constant(SalamanderVM*, ObjFn*, Value);
 
 static inline Value salamander_Value_num_to_value(double num) {
 #if SALAMANDER_NAN_TAGGING
-	return (Value) salamander_Math_double_to_bits(num);
+    return (Value) salamander_Math_double_to_bits(num);
 #else
-	Value value;
+    Value value;
 
-	value.type      = VAL_NUMBER;
-	value.data.num  = num;
+    value.type      = VAL_NUMBER;
+    value.data.num  = num;
 
-	return value;
+    return value;
 #endif
 }
 
@@ -130,9 +130,9 @@ static inline Value salamander_Value_num_to_value(double num) {
 
 static inline double salamander_Value_value_to_num(Value value) {
 #if SALAMANDER_NAN_TAGGING
-	return salamander_Math_double_from_bits((uint64_t) value);
+    return salamander_Math_double_from_bits((uint64_t) value);
 #else 
-	return value.data.num;
+    return value.data.num;
 #endif
 }
 

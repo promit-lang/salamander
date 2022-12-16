@@ -15,28 +15,28 @@
 // Union to bit cast from double to unsigned 64-bit integer.
 
 typedef union union_DoubleBits {
-	uint64_t bits64;
-	double num;
+    uint64_t bits64;
+    double num;
 } BitCast;
 
 // Converts a double value to unsigned 64-bit integer by bits.
 
 static inline uint64_t salamander_Math_double_to_bits(double num) {
-	BitCast cast;
+    BitCast cast;
 
-	cast.num = num;
+    cast.num = num;
 
-	return cast.bits64;
+    return cast.bits64;
 }
 
 // Converts a 64-bit integer to double value by bits.
 
 static inline double salamander_Math_double_from_bits(uint64_t bits) {
-	BitCast cast;
+    BitCast cast;
 
-	cast.bits64 = bits;
+    cast.bits64 = bits;
 
-	return cast.num;
+    return cast.num;
 }
 
 #endif    // __SALAMANDER_MATH_H__
