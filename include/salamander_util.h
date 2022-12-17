@@ -19,12 +19,12 @@
 // To free allocated buffers.
 
 #define FREE_BUFFER(vm, type, memory, old_size)                               \
-    salamander_reallocate(vm, memory, sizeof(type) * (old_size), 0);
+    salamander_Memory_reallocate(vm, memory, sizeof(type) * (old_size), 0);
 
 // To allocate more memory for provided buffer.
 
 #define GROW_BUFFER(vm, type, memory, old_size, new_size)                     \
-    salamander_reallocate(vm, memory, sizeof(type) * (old_size),              \
+    salamander_Memory_reallocate(vm, memory, sizeof(type) * (old_size),              \
         sizeof(type) * (new_size));
 
 // We are going to use buffers in a lot of cases, e.g. ByteBuffers, 

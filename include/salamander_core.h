@@ -90,8 +90,7 @@
 
 #endif    // __GNUC__ and __clang__
 
-// MSVC Compiler does not support 'inline' keyword in 
-// C environment.
+// MSVC compilers does not support 'inline' keyword in C environment.
 
 #if defined(_MSC_VER) && !defined(__cplusplus)
 #define inline _inline

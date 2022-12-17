@@ -13,7 +13,7 @@
 
 #include <salamander_vm.h>
 
-void salamander_debug_dump_value(Value);
-int  salamander_debug_dump_instruction(ObjFn*, int);
-void salamander_debug_dump_fn(ObjFn*);
-void salamander_debug_dump_stack(SalamanderVM* vm);
+void salamander_Debug_dump_value(Value);
+int  salamander_Debug_dump_instruction(ObjFn*, int);
+void salamander_Debug_dump_fn(ObjFn*);
+void salamander_Debug_dump_stack(SalamanderVM* vm);

@@ -6,7 +6,7 @@
 
 // void salamander_debug_dump_value(Value);
 
-void salamander_debug_dump_value(Value value) {
+void salamander_Debug_dump_value(Value value) {
 #ifdef SALAMANDER_NAN_TAGGING
     if(is_true(IS_NUM(value))) 
         printf("%.14g", AS_NUM(value));
@@ -50,7 +50,7 @@ static int dump_instruction(ObjFn* fn, int i, int* last_line) {
 
             printf("%-16s %5hu '", "CONSTANT", index);
 
-            salamander_debug_dump_value(fn -> pool.data[index]);
+            salamander_Debug_dump_value(fn -> pool.data[index]);
 
             printf("'");
 
@@ -92,13 +92,13 @@ static int dump_instruction(ObjFn* fn, int i, int* last_line) {
 #undef READ_SHORT
 }
 
-int salamander_debug_dump_instruction(ObjFn* fn, int i) {
+int salamander_Debug_dump_instruction(ObjFn* fn, int i) {
     return dump_instruction(fn, i, NULL);
 }
 
 // void salamander_debug_dump_fn(ObjFn*);
 
-void salamander_debug_dump_fn(ObjFn* fn) {
+void salamander_Debug_dump_fn(ObjFn* fn) {
     int i, offset;
 
     i = offset = 0;
@@ -118,11 +118,11 @@ void salamander_debug_dump_fn(ObjFn* fn) {
 //
 // Dump the whole fiber stack.
 
-void salamander_debug_dump_stack(SalamanderVM* vm) {
+void salamander_Debug_dump_stack(SalamanderVM* vm) {
     printf("Stack: [ ");
 
     for(Value* slot = vm -> stack; slot < vm -> stack_top; slot++) {
-        salamander_debug_dump_value(*slot);
+        salamander_Debug_dump_value(*slot);
 
         if(is_true(slot + 1 < vm -> stack_top))
             printf(", ");

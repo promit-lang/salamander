@@ -17,6 +17,7 @@
 // Standard C libraries.
 
 #include <stdbool.h>
+#include <stddef.h>
 
 // For API access specifier.
 
@@ -49,15 +50,40 @@
 
 typedef struct struct_SalamanderVM SalamanderVM;
 
+// A generic user definable allocator function used for VM's memory 
+// manangement. The function definition should look like this: 
+// 
+// void* my_reallocator(void* memory, size_t new_size) { --CODE-- }
+// 
+// The function will be used like following: 
+// 
+// (1) To allocate new memory of [new_size] bytes and assign it to a new
+//     pointer -> [memory] is 'NULL' and [new_size] is a non-zero positive 
+//     value.
+// (2) To deallocate the existing memory of a pointer -> [memory] is a valid 
+//     pointer and [new_size] is zero (0).
+// (3) To extend or shrink the existing memory pointer -> [memory] is valid 
+//     pointer and [new_size] is a non-zero positive value.
+
+typedef void* (*SalamanderReallocatorFn)(void*, size_t);
+
 // TODO: add conf.
 
 typedef struct struct_SalamanderConfiguration {
+    // The callback SVM will use to allocate, reallocate and deallocate the 
+    // memory.
+    //
+    // If set to 'NULL', SVM will use it's default realloctor function.
 
+    SalamanderReallocatorFn reallocator;
 } SalamanderConfiguration;
 
 typedef enum enum_SalamanderResult {
 	SALAMANDER_RESULT_RUNTIME_ERROR,
 	SALAMANDER_RESULT_SUCCESS
 } SalamanderResult;
+
+SALAMANDER_API void 
+    salamander_SalamanderConfiguration_init(SalamanderConfiguration*);
 
 #endif    // __SALAMANDER_H__

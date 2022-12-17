@@ -27,6 +27,8 @@ struct struct_SalamanderVM {
     ObjFn* fn;
     Value stack[256];
     Value* stack_top;
+    SalamanderConfiguration* config;
+    int total_allocated;
 };
 
 // Types of binary operation the VM can perform. This values will be passed 
@@ -40,7 +42,9 @@ typedef enum enum_BinaryOpType {
 
 // Weird, huh?
 
-void             salamander_SalamanderVM_init(SalamanderVM*);
+void 
+    salamander_SalamanderVM_init(SalamanderVM*, SalamanderConfiguration*);
+
 void             salamander_SalamanderVM_free(SalamanderVM*);
 SalamanderResult salamander_SalamanderVM_execute(SalamanderVM*);
 

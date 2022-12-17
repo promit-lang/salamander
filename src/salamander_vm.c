@@ -5,11 +5,17 @@
 #include <salamander_debug.h>
 #endif
 
+void salamander_SalamanderConfiguration_init(SalamanderConfiguration* config) {
+    config -> reallocator = salamander_Memory_default_reallocator;
+}
+
 // void salamander_SalamanderVM_init(SalamanderVM*);
 
-void salamander_SalamanderVM_init(SalamanderVM* vm) {
-    vm -> fn        = NULL;
-    vm -> stack_top = vm -> stack;
+void salamander_SalamanderVM_init(SalamanderVM* vm, SalamanderConfiguration* config) {
+    vm -> fn              = NULL;
+    vm -> stack_top       = vm -> stack;
+    vm -> config          = config;
+    vm -> total_allocated = 0;
 }
 
 // void salamander_SalamanderVM_free(SalamanderVM*);
@@ -34,8 +40,8 @@ static SalamanderResult salamander_execute(SalamanderVM* vm) {
 #if SALAMANDER_DEBUG_TRACE_EXECUTION
 
 #define DEBUG_TRACE_INSTRUCTIONS()  do {              \
-        salamander_debug_dump_stack(vm);              \
-        salamander_debug_dump_instruction(vm -> fn,   \
+        salamander_Debug_dump_stack(vm);              \
+        salamander_Debug_dump_instruction(vm -> fn,   \
             (int) (ip - vm -> fn -> code.data));      \
     } while(false)
 
