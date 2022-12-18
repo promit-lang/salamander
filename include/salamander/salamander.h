@@ -16,8 +16,7 @@
 
 // Standard C libraries.
 
-#include <stdbool.h>
-#include <stddef.h>
+#include <salamander_value.h>
 
 // For API access specifier.
 
