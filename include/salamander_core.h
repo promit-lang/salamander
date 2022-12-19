@@ -121,7 +121,7 @@
 
 // Indicates the program execution shouldn't reach the portion of code. If it
 // does, dump error in DEBUG mode.
-
+// 
 // In release mode, use compiler specific built-in functions to indicate 
 // uncreachable codes. It tells the compilers a portion of code should never
 // be reached. This gets rid of the 'expected a return' warnings.
