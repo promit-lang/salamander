@@ -3,15 +3,27 @@
 #include <salamander/compiler.h>
 #include <salamander_vm.h>
 
+// Converts provided data as void pointer to SalamanderVM's representative
+// 'Value'.
+
+static Value to_value(LiteralType type, void* value) {
+    switch(type) {
+        case LITERAL_NUM: return NUMBER_VAL(*((double*) value)); break;
+    }
+
+    UNREACHABLE();
+}
+
 // void salamander_Compiler_emit_CONSTANT(SalamanderVM*, ObjFn*, Value, int);
 //
 // Emits the instruction 'CONSTANT', which loads a constant to the fiber 
 // stack from constant pool.
 
 void salamander_Compiler_emit_CONSTANT(SalamanderVM* vm, ObjFn* fn, 
-    Value constant, int line) 
+    LiteralType type, void* value, int line) 
 {
-    int constant_index = salamander_ObjFn_write_constant(vm, fn, constant);
+    int constant_index = 
+        salamander_ObjFn_write_constant(vm, fn, to_value(type, value));
 
     // Emit the instruction.
 

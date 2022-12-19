@@ -22,12 +22,16 @@ typedef enum enum_ObjType {
     OBJ_FIBER
 } ObjType;
 
+// All the forward declarations of objects reside in this file.
+
+#include <salamander/object.h>
+
 // The core object representation, which will be inherited by every other
 // object types through conventional C structure inheritance.
 
-typedef struct struct_Obj {
+struct struct_Obj {
     ObjType type;
-} Obj;
+};
 
 // The main value representation.
 
@@ -92,7 +96,7 @@ typedef struct struct_FnDebug {
 // A function object.
 // TODO: Add more features.
 
-typedef struct struct_ObjFn {
+struct struct_ObjFn {
     Obj obj;
 
     // To store the sequence of bytecodes.
@@ -104,7 +108,7 @@ typedef struct struct_ObjFn {
     ValueBuffer pool;
 
     FnDebug* debug;
-} ObjFn;
+};
 
 int  salamander_ObjFn_byte_line(ObjFn*, int);
 void salamander_ObjFn_write_byte(SalamanderVM*, ObjFn*, uint8_t, int);

@@ -2,26 +2,49 @@
 #include <salamander_vm.h>
 
 #if SALAMANDER_DEBUG_TRACE_EXECUTION
-#include <salamander_debug.h>
+#include <salamander/debug.h>
 #endif
+
+// salamander/salamander.h
+// 
+// void salamander_SalamanderConfiguration_init(SalamanderConfiguration*);
+// 
+// Initialize the config struct with SVM's default config.
 
 void salamander_SalamanderConfiguration_init(SalamanderConfiguration* config) {
     config -> reallocator = salamander_Memory_default_reallocator;
 }
 
-// void salamander_SalamanderVM_init(SalamanderVM*);
+// salamander/salamander.h
+// 
+// void salamander_SalamanderVM_new(SalamanderConfiguration*);
+// 
+// Creates a new VM in the heap and returns a pointer to it.
+// 
+// Note: The reallocator defined in the configuration is used to create the 
+//       heap object.
 
-void salamander_SalamanderVM_init(SalamanderVM* vm, SalamanderConfiguration* config) {
+SalamanderVM* salamander_SalamanderVM_new(SalamanderConfiguration* config) {
+    SalamanderVM* vm = (SalamanderVM*) 
+        config -> reallocator(NULL, sizeof(SalamanderVM));
+    
     vm -> fn              = NULL;
     vm -> stack_top       = vm -> stack;
     vm -> config          = config;
     vm -> total_allocated = 0;
+
+    return vm;
 }
 
+// salamander/salamander.h
+// 
 // void salamander_SalamanderVM_free(SalamanderVM*);
+// 
+// Frees the heap allocated instance of VM struct. Uses the configs 
+// reallocator to free the VM.
 
 void salamander_SalamanderVM_free(SalamanderVM* vm) {
-
+    vm -> config -> reallocator(vm, 0u);
 }
 
 static SalamanderResult salamander_execute(SalamanderVM* vm) {
@@ -146,8 +169,10 @@ static SalamanderResult salamander_execute(SalamanderVM* vm) {
     }
 }
 
-// SalamanderResult salamander_SalamanderVM_execute(SalamanderVM*);
-
-SalamanderResult salamander_SalamanderVM_execute(SalamanderVM* vm) {
+SalamanderResult 
+    salamander_SalamanderVM_execute(SalamanderVM* vm, ExecutionType type, void* exe) 
+{
+    vm -> fn = (ObjFn*) exe;
+    
     return salamander_execute(vm);
 }

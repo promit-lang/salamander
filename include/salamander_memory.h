@@ -10,6 +10,28 @@
 #include <salamander/salamander.h>
 #include <salamander_core.h>
 
+// Allocates new sequence of memory in the heap managed by the VM.
+
+#define ALLOCATE(type, count)                                                 \
+    (type*) salamander_Memory_reallocate(vm, NULL, 0,                         \
+        sizeof(type) * (count))
+
+// Free non-sequential memory.
+
+#define FREE(type, memory)                                                    \
+    salamander_Memory_reallocate(vm, memory, sizeof(type), 0u)
+
+// To allocate more memory for provided buffer.
+
+#define GROW_BUFFER(vm, type, memory, old_size, new_size)                     \
+    salamander_Memory_reallocate(vm, memory, sizeof(type) * (old_size),       \
+        sizeof(type) * (new_size))
+
+// Frees allocated buffers.
+
+#define FREE_BUFFER(vm, type, memory, old_size)                               \
+    salamander_Memory_reallocate(vm, memory, sizeof(type) * (old_size), 0)
+
 // SalamanderVM's default reallocator function.
 
 void* salamander_Memory_default_reallocator(void*, size_t);

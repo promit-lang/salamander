@@ -16,7 +16,7 @@
 
 // Standard C libraries.
 
-#include <salamander_value.h>
+#include <stddef.h>
 
 // For API access specifier.
 
@@ -77,12 +77,50 @@ typedef struct struct_SalamanderConfiguration {
     SalamanderReallocatorFn reallocator;
 } SalamanderConfiguration;
 
+// The 'salamander_SalamanderVM_execute' function will return one of the 
+// results mentioned in following.
+// 
+// SALAMANDER_RESULT_RUNTIME_ERROR -> If any error occurs whilst running a 
+//                                    function or a fiber.
+// SALAMANDER_RESULT_SUCCESS -> As the name suggests, if the execution goes ok.
+
 typedef enum enum_SalamanderResult {
 	SALAMANDER_RESULT_RUNTIME_ERROR,
 	SALAMANDER_RESULT_SUCCESS
 } SalamanderResult;
 
+// In SalamanderVM, you are allowed to run 2 things: 
+// (1) A function as a frame to the current running fiber (A new fiber will be 
+//     created if there aren't any).
+// (2) A fiber of non-completed state (New or yielded).
+
+typedef enum enum_ExecutionType {
+    EXECUTION_TYPE_FN,
+    EXECUTION_TYPE_FIBER
+} ExecutionType;
+
+// Initialize the config struct with SVM's default config.
+
 SALAMANDER_API void 
     salamander_SalamanderConfiguration_init(SalamanderConfiguration*);
+
+// Creates a new VM in the heap and returns a pointer to it.
+// 
+// Note: The reallocator defined in the configuration is used to create the 
+//       heap object.
+
+SALAMANDER_API SalamanderVM*
+    salamander_SalamanderVM_new(SalamanderConfiguration*);
+
+// Frees the heap allocated instance of VM struct. Uses the configs 
+// reallocator to free the VM.
+
+SALAMANDER_API void 
+    salamander_SalamanderVM_free(SalamanderVM*);
+
+// TODO: Add comments.
+
+SALAMANDER_API SalamanderResult 
+    salamander_SalamanderVM_execute(SalamanderVM*, ExecutionType, void*);
 
 #endif    // __SALAMANDER_H__

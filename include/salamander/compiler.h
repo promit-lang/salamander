@@ -16,20 +16,29 @@
 #ifndef __SALAMANDER_COMPILER_H__
 #define __SALAMANDER_COMPILER_H__
 
-#include <salamander_vm.h>
+#include <salamander/api.h>
+#include <salamander/object.h>
+
+// Literal types used while emitting a constant instruction.
+
+typedef enum enum_LiteralType {
+	LITERAL_NUM
+} LiteralType;
 
 // Emits the instruction 'CONSTANT', which loads a constant to the fiber 
-// stack from constant pool.
+// stack from constant pool. In [void*] parameter pass: 
+// For number types (double): &number
+// For strings: Just the pointer to the first character.
 
-SALAMANDER_API void 
-	salamander_Compiler_emit_CONSTANT(SalamanderVM*, ObjFn*, Value, int);
+SALAMANDER_API void salamander_Compiler_emit_CONSTANT(SalamanderVM*, ObjFn*, 
+	LiteralType, void*, int);
 
 // Emits the 'BINARY' instruction passing provided binary operation type as 
 // operand. The 'BINARY' instruction makes binary operation with two values
 // on top of the stack.
 
-SALAMANDER_API void 
-	salamander_Compiler_emit_BINARY(SalamanderVM*, ObjFn*, BinaryOpType, int);
+// SALAMANDER_API void 
+// 	salamander_Compiler_emit_BINARY(SalamanderVM*, ObjFn*, BinaryOpType, int);
 
 // Emits the instruction 'BINARY' with parameter 'BINARY_ADD', which adds two 
 // values. If the values are string, then they will be concatenated. In case 

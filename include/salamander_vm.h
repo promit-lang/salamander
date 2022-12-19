@@ -40,12 +40,4 @@ typedef enum enum_BinaryOpType {
     BINARY_DIV
 } BinaryOpType;
 
-// Weird, huh?
-
-void 
-    salamander_SalamanderVM_init(SalamanderVM*, SalamanderConfiguration*);
-
-void             salamander_SalamanderVM_free(SalamanderVM*);
-SalamanderResult salamander_SalamanderVM_execute(SalamanderVM*);
-
 #endif    // __SALAMANDER_VM_H__

@@ -1,12 +1,15 @@
-#include <salamander_debug.h>
+/** Implements API functions declared in 'salamander/debug.h'. */
+
+#include <salamander/debug.h>
+#include <salamander_vm.h>
 
 // C standard includes.
 
 #include <stdio.h>
 
-// void salamander_debug_dump_value(Value);
+// Dump out the provided value.
 
-void salamander_Debug_dump_value(Value value) {
+static void dump_value(Value value) {
 #ifdef SALAMANDER_NAN_TAGGING
     if(is_true(IS_NUM(value))) 
         printf("%.14g", AS_NUM(value));
@@ -50,7 +53,7 @@ static int dump_instruction(ObjFn* fn, int i, int* last_line) {
 
             printf("%-16s %5hu '", "CONSTANT", index);
 
-            salamander_Debug_dump_value(fn -> pool.data[index]);
+            dump_value(fn -> pool.data[index]);
 
             printf("'");
 
@@ -92,6 +95,8 @@ static int dump_instruction(ObjFn* fn, int i, int* last_line) {
 #undef READ_SHORT
 }
 
+// int salamander_Debug_dump_instruction(ObjFn*, int);
+
 int salamander_Debug_dump_instruction(ObjFn* fn, int i) {
     return dump_instruction(fn, i, NULL);
 }
@@ -122,7 +127,7 @@ void salamander_Debug_dump_stack(SalamanderVM* vm) {
     printf("Stack: [ ");
 
     for(Value* slot = vm -> stack; slot < vm -> stack_top; slot++) {
-        salamander_Debug_dump_value(*slot);
+        dump_value(*slot);
 
         if(is_true(slot + 1 < vm -> stack_top))
             printf(", ");
