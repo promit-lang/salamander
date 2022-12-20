@@ -12,7 +12,7 @@
 void* salamander_Memory_default_reallocator(void* memory, size_t new_size) {
     // If [new_size] is 0, free the memory.
 
-    if(is_true(new_size == 0u)) {
+    if(likely(new_size == 0u)) {
         free(memory);
 
         return NULL;

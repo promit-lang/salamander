@@ -56,7 +56,7 @@ Value salamander_Value_convert_to_num(SalamanderVM* vm, Value* value) {
 
 #if SALAMANDER_NAN_TAGGING
 
-    if(is_true(IS_NUM(*value))) {}
+    if(likely(IS_NUM(*value))) {}
 
 #else
 
@@ -74,7 +74,7 @@ Value salamander_Value_convert_to_num(SalamanderVM* vm, Value* value) {
 // Checks whether provided number is valid or not.
 
 bool salamander_Value_is_valid_num(Value* const value) {
-    if(is_false(IS_NUM(*value))) 
+    if(unlikely(!IS_NUM(*value))) 
         return false;
 
     double num = AS_NUM(*value);

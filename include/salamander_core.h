@@ -76,17 +76,17 @@
 
 // __builtin_expect(n, e) is an extension to both GCC and clang compiler used
 // for branch predictions which optimizes the condition pipeline, thus makes
-// the condition related statements run faster.
+// the condition related statements little bit more optimized.
 
 #if defined __GNUC__ || defined __clang__
 
-#define is_true(x) __builtin_expect(!!(x), 1)
-#define is_false(x) __builtin_expect(!!(x), 0)
+#define likely(x) __builtin_expect(!!(x), 1)
+#define unlikely(x) __builtin_expect(!!(x), 0)
 
 #else
 
-#define is_true(x) x
-#define is_false(x) !x
+#define likely(x) x
+#define unlikely(x) x
 
 #endif    // __GNUC__ and __clang__
 
@@ -111,7 +111,7 @@
 
 #define ASSERT(condition, message)                                           \
     do {                                                                     \
-        if(is_false(condition)) {                                            \
+        if(unlikely(!condition)) {                                            \
             (void) fprintf(stderr,                                           \
                 "[%s:%d] Debug assertion failed in %s() : %s",               \
                 __FILE__, __LINE__, __func__, message);                      \

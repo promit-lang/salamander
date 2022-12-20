@@ -13,9 +13,9 @@ int salamander_ObjFn_byte_line(ObjFn* fn, int offset) {
 
     int left = 0, right = buffer.count - 1, mid = (left + right) / 2;
 
-    while(is_true(left != right)) {
-        if(is_true(offset <= buffer.data[mid])) {
-            if(is_true(mid == 0 || offset > buffer.data[mid - 1])) 
+    while(left != right) {
+        if(likely(offset <= buffer.data[mid])) {
+            if(likely(mid == 0 || offset > buffer.data[mid - 1])) 
                 return mid + 1;
             else right = mid - 1;
         } else left = mid + 1;
@@ -47,7 +47,7 @@ void salamander_ObjFn_write_byte(SalamanderVM* vm,
 {
     // Add the line number as debugging info.
 
-    if(is_true(line > fn -> debug -> lines.count)) 
+    if(unlikely(line > fn -> debug -> lines.count)) 
         salamander_IntBuffer_write(vm, &fn -> debug -> lines, fn -> code.count);
     else fn -> debug -> lines.data[line - 1]++;    // Run-length encoding.
 

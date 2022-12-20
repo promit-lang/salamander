@@ -57,7 +57,7 @@
     {                                                                         \
         int total_count = count + buffer -> count;                            \
                                                                               \
-        if(is_true(total_count > buffer -> capacity)) {                       \
+        if(unlikely(total_count > buffer -> capacity)) {                      \
             int capacity =                                                    \
                 salamander_next_power_of_2(total_count);                      \
                                                                               \
@@ -67,7 +67,7 @@
             buffer -> capacity = capacity;                                    \
         }                                                                     \
                                                                               \
-        while(is_true(count--))                                               \
+        while(count--)                                                        \
             buffer -> data[buffer -> count++] = data;                         \
     }                                                                         \
                                                                               \
