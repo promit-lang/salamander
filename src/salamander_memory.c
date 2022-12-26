@@ -37,3 +37,39 @@ void* salamander_Memory_reallocate(SalamanderVM* vm, void* memory, size_t old_si
 
     return vm -> config -> reallocator(memory, new_size);
 }
+
+// void salamander_Memory_free_obj(Obj*);
+// 
+// Frees an object.
+
+void salamander_Memory_free_obj(SalamanderVM* vm, Obj* object) {
+    switch(object -> type) {
+        case OBJ_FN: {
+            // Get the function object.
+
+            ObjFn* fn = (ObjFn*) object;
+
+            // Free the line buffer in debugging info struct (FnDebug).
+
+            salamander_IntBuffer_free(vm, &fn -> debug -> lines);
+
+            // Free the debugging info struct (FnDebug).
+
+            FREE(FnDebug, fn -> debug);
+
+            // Free the constant pool.
+
+            salamander_ValueBuffer_free(vm, &fn -> pool);
+
+            // Free the byte buffer (instruciton array).
+
+            salamander_ByteBuffer_free(vm, &fn -> code);
+
+            // Finally free the object itself.
+
+            FREE(ObjFn, fn);
+
+            break;
+        }
+    }
+}

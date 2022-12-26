@@ -1,6 +1,59 @@
-#include <salamander_value.h>
+#include <salamander_vm.h>
+
+// Helper for inheritant object allocator.
+
+#define ALLOCATE_OBJ(type, obj_type)                                      \
+    (type*) allocate_object(vm, sizeof(type), obj_type);
 
 DEFINE_BUFFER(Value, Value);
+
+static Obj* allocate_object(SalamanderVM* vm, size_t size, ObjType type) {
+    Obj* object = (Obj*) salamander_Memory_reallocate(vm, NULL, 0u, size);
+
+    object -> type = type;
+    object -> next = vm -> last;
+
+    // Adding to the object linked list in order to track all the allocated 
+    // objects and free it when the VM frees or the GC collects.
+
+    vm -> last = object;
+
+    return object;
+}
+
+// ObjFn* salamander_ObjFn_new(SalamanderVM*);
+// 
+// Creates and returns a new 'ObjFn' object.
+// 
+// Note: The objects are freed by the VM and the GC. So, there is no 
+//       respective '_free' function for objects.
+
+ObjFn* salamander_ObjFn_new(SalamanderVM* vm) {
+    ObjFn* fn = ALLOCATE_OBJ(ObjFn, OBJ_FN);
+
+    // The 'FnDebug' struct to keep the debugging info such as line numbers 
+    // etc.
+
+    FnDebug* debug = ALLOCATE(FnDebug);
+
+    // Initialize the line buffer.
+
+    salamander_IntBuffer_init(&debug -> lines);
+
+    // Initialize the function debugging info.
+
+    fn -> debug = debug;
+
+    // Initialize the byte buffer to store instructions.
+
+    salamander_ByteBuffer_init(&fn -> code);
+
+    // Initialize the constant pool.
+
+    salamander_ValueBuffer_init(&fn -> pool);
+
+    return fn;
+}
 
 // int salamander_fn_get_line_of_byte(ObjFn*, int);
 //
@@ -30,7 +83,7 @@ int salamander_ObjFn_byte_line(ObjFn* fn, int offset) {
         return mid + 1;
 
     // Will not reach, cause it should be ensured by the compiler that a valid
-    // line number exists of provided offset number.
+    // line number exists of provided byte offset.
 
     UNREACHABLE();
 

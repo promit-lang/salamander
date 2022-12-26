@@ -1,7 +1,6 @@
 /** Implements API functions declared in 'salamander/debug.h'. */
 
-#include <salamander/debug.h>
-#include <salamander_vm.h>
+#include <salamander_debug.h>
 
 // C standard includes.
 

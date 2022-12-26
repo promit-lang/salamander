@@ -19,17 +19,15 @@
 // naming order.
 
 typedef enum enum_ObjType {
-    OBJ_FIBER
+    OBJ_FIBER,
+    OBJ_FN
 } ObjType;
-
-// All the forward declarations of objects reside in this file.
-
-#include <salamander/object.h>
 
 // The core object representation, which will be inherited by every other
 // object types through conventional C structure inheritance.
 
 struct struct_Obj {
+    Obj* next;
     ObjType type;
 };
 
@@ -110,10 +108,32 @@ struct struct_ObjFn {
     FnDebug* debug;
 };
 
-int  salamander_ObjFn_byte_line(ObjFn*, int);
+/** 
+  * Every object has only one release (free) function, 
+  * 'salamander_Memory_free_obj'.
+  */
+
+// Creates and returns a new 'ObjFn' object.
+
+ObjFn* salamander_ObjFn_new(SalamanderVM*);
+
+// Gets the source line number where the provided byte is compiled from.
+
+int salamander_ObjFn_byte_line(ObjFn*, int);
+
+// Appends provided byte to the bytecode sequence with encoding the line 
+// number the byte is compiled from.
+
 void salamander_ObjFn_write_byte(SalamanderVM*, ObjFn*, uint8_t, int);
+
+// Appends provided short (unsigned 16-bit integer) to the bytecode sequence
+// by disecting it to bytes.
+
 void salamander_ObjFn_write_short(SalamanderVM*, ObjFn*, uint16_t, int);
-int  salamander_ObjFn_write_constant(SalamanderVM*, ObjFn*, Value);
+
+// Writes the provided constant to the constant pool.
+
+int salamander_ObjFn_write_constant(SalamanderVM*, ObjFn*, Value);
 
 // Converts a double number to 'Value' representation.
 

@@ -2,8 +2,20 @@
 #include <salamander_vm.h>
 
 #if SALAMANDER_DEBUG_TRACE_EXECUTION
-#include <salamander/debug.h>
+#include <salamander_debug.h>
 #endif
+
+// Frees all bjects allocated with the VM's reallocator.
+
+static void free_objects(SalamanderVM* vm, Obj* start) {
+    while(start != NULL) {
+        Obj* next = start -> next;
+
+        salamander_Memory_free_obj(vm, start);
+
+        start = next;
+    } 
+}
 
 // salamander/salamander.h
 // 
@@ -32,6 +44,7 @@ SalamanderVM* salamander_SalamanderVM_new(SalamanderConfiguration* config) {
     vm -> stack_top       = vm -> stack;
     vm -> config          = config;
     vm -> total_allocated = 0;
+    vm -> last            = NULL;
 
     return vm;
 }
@@ -44,6 +57,10 @@ SalamanderVM* salamander_SalamanderVM_new(SalamanderConfiguration* config) {
 // reallocator to free the VM.
 
 void salamander_SalamanderVM_free(SalamanderVM* vm) {
+    // First free all the objects.
+
+    free_objects(vm, vm -> last);
+
     vm -> config -> reallocator(vm, 0u);
 }
 

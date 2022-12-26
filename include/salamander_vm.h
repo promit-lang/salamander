@@ -24,6 +24,7 @@ typedef enum enum_Code {
 #undef OPCODE
 
 struct struct_SalamanderVM {
+    Obj* last;
     ObjFn* fn;
     Value stack[256];
     Value* stack_top;

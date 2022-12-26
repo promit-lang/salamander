@@ -6,16 +6,12 @@
  * As the name suggests, this header file consists of utility functions to 
  * dump values in stack, intructions and stack traces etc. which can help
  * debugging and rehacking the VM.
- * 
- * Note: These functions are also exposed as API, which can help to debug
- *       compilers.
  *
  * @authors:
  *   1. SD Asif Hossein <s.dah.ingularity@gmail.com> 8th Dec. 2022
  */
 
-#include <salamander/salamander.h>
-#include <salamander/object.h>
+#include <salamander_vm.h>
 
 // Prints an instruction to the stdout and it's line number from source.
 

@@ -10,16 +10,27 @@
 #include <salamander/salamander.h>
 #include <salamander_core.h>
 
+// Forward declaration of objects.
+
+typedef struct struct_Obj Obj;
+typedef struct struct_ObjFn ObjFn;
+
 // Allocates new sequence of memory in the heap managed by the VM.
 
-#define ALLOCATE(type, count)                                                 \
-    (type*) salamander_Memory_reallocate(vm, NULL, 0,                         \
-        sizeof(type) * (count))
+#define ALLOCATE(type)                                                        \
+    (type*) salamander_Memory_reallocate(vm, NULL, 0u,                        \
+        sizeof(type))
 
 // Free non-sequential memory.
 
 #define FREE(type, memory)                                                    \
     salamander_Memory_reallocate(vm, memory, sizeof(type), 0u)
+
+// To allocate a new buffer.
+
+#define ALLOCATE_BUFFER(type, count)                                          \
+    (type*) salamander_Memory_reallocate(vm, NULL, 0u,                        \
+        sizeof(type) * (count))
 
 // To allocate more memory for provided buffer.
 
@@ -44,4 +55,6 @@ void* salamander_Memory_default_reallocator(void*, size_t);
 
 void* salamander_Memory_reallocate(SalamanderVM*, void*, size_t, size_t);
 
-// Default SalamanderVM
+// Frees an object.
+
+void salamander_Memory_free_obj(SalamanderVM*, Obj*);
