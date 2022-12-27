@@ -71,5 +71,7 @@ void salamander_Memory_free_obj(SalamanderVM* vm, Obj* object) {
 
             break;
         }
+
+        case OBJ_FIBER: break;
     }
 }

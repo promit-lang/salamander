@@ -79,7 +79,7 @@ int salamander_ObjFn_byte_line(ObjFn* fn, int offset) {
     // Above loop doesn't cover the very last line, thus checking whether it
     // is the last line which should be returned.
 
-    if(mid == right && offset <= buffer.data[mid]) 
+    if(likely(mid == right && offset <= buffer.data[mid])) 
         return mid + 1;
 
     // Will not reach, cause it should be ensured by the compiler that a valid
